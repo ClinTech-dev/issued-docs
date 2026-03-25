@@ -1,0 +1,159 @@
+/*
+ * ClinTech Design System overrides for MkDocs Material
+ *
+ * Source of truth: docs/DESIGN_SYSTEM.md
+ * Palette: Sage neutrals, Brand green primary, AI purple accent, Flag amber
+ * Tone: "Refined clinical professional. Modern medical journal meets clean SaaS."
+ */
+
+/* ── Primary: Brand Green (#344c3e) ───────────────────────── */
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: #344c3e;
+  --md-primary-fg-color--light: #648e75;
+  --md-primary-fg-color--dark: #2a3e32;
+  --md-primary-bg-color: #ffffff;
+  --md-primary-bg-color--light: #e8f0eb;
+}
+
+/* ── Accent: Brand Green Light ────────────────────────────── */
+[data-md-color-scheme="default"] {
+  --md-accent-fg-color: #648e75;
+  --md-accent-fg-color--transparent: rgba(100, 142, 117, 0.1);
+  --md-accent-bg-color: #e8f0eb;
+  --md-accent-bg-color--light: #e8f0eb;
+}
+
+/* ── Sage Neutrals (warm gray, ~3% green saturation) ──────── */
+[data-md-color-scheme="default"] {
+  --md-default-fg-color: #1b1d1c;              /* sage-900 */
+  --md-default-fg-color--light: #515654;        /* sage-600 */
+  --md-default-fg-color--lighter: #6f7572;      /* sage-500 */
+  --md-default-fg-color--lightest: rgba(26, 29, 28, 0.07);
+  --md-default-bg-color: #f9fafa;              /* sage-50 */
+  --md-default-bg-color--light: #f1f3f2;        /* sage-100 */
+  --md-default-bg-color--lighter: #e2e5e3;      /* sage-200 */
+  --md-default-bg-color--lightest: #cfd3d1;     /* sage-300 */
+}
+
+/* ── Typography ───────────────────────────────────────────── */
+:root {
+  --md-text-font: "Geist Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --md-code-font: "Geist Mono", "SF Mono", "Fira Code", monospace;
+}
+
+/* ── Header ───────────────────────────────────────────────── */
+.md-header {
+  background-color: #344c3e;
+}
+
+/* ── Navigation active states: brand green ────────────────── */
+.md-nav__link--active,
+.md-nav__link:is([href]) {
+  color: #344c3e;
+}
+
+.md-nav__item--active > .md-nav__link {
+  color: #344c3e;
+  font-weight: 600;
+}
+
+/* ── Sidebar styling ──────────────────────────────────────── */
+.md-sidebar {
+  border-right: 1px solid #e2e5e3; /* sage-200 */
+}
+
+/* ── Content links ────────────────────────────────────────── */
+.md-typeset a {
+  color: #648e75; /* primary-light */
+}
+
+.md-typeset a:hover {
+  color: #344c3e; /* primary */
+}
+
+/* ── Admonition: info (used for Safety callouts) ──────────── */
+.md-typeset .admonition.info,
+.md-typeset details.info {
+  border-color: #344c3e;
+}
+
+.md-typeset .info > .admonition-title,
+.md-typeset .info > summary {
+  background-color: #e8f0eb; /* primary-muted */
+  border-color: #344c3e;
+}
+
+.md-typeset .info > .admonition-title::before,
+.md-typeset .info > summary::before {
+  color: #344c3e;
+}
+
+/* ── Admonition: warning (used for Agent Boundary callouts) ─ */
+.md-typeset .admonition.warning,
+.md-typeset details.warning {
+  border-color: #d97706; /* flag amber */
+}
+
+.md-typeset .warning > .admonition-title,
+.md-typeset .warning > summary {
+  background-color: #fffbeb; /* flag-surface */
+  border-color: #d97706;
+}
+
+.md-typeset .warning > .admonition-title::before,
+.md-typeset .warning > summary::before {
+  color: #d97706;
+}
+
+/* ── Code blocks ──────────────────────────────────────────── */
+.md-typeset code {
+  background-color: #f1f3f2; /* sage-100 */
+  color: #2a2d2b;            /* sage-800 */
+  border-radius: 4px;
+}
+
+.md-typeset pre > code {
+  background-color: #1b1d1c; /* sage-900 */
+  color: #f1f3f2;            /* sage-100 */
+}
+
+/* ── Footer ───────────────────────────────────────────────── */
+.md-footer {
+  background-color: #2a2d2b; /* sage-800 */
+}
+
+/* ── Search ───────────────────────────────────────────────── */
+.md-search__input {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+[data-md-color-scheme="default"] .md-search__input:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ── Mermaid: override default styles to use brand colours ── */
+.mermaid .node rect,
+.mermaid .node circle,
+.mermaid .node polygon {
+  fill: #e8f0eb !important;   /* primary-muted */
+  stroke: #344c3e !important; /* primary */
+}
+
+.mermaid .edgePath .path {
+  stroke: #648e75 !important; /* primary-light */
+}
+
+.mermaid .edgeLabel {
+  background-color: #f9fafa !important; /* sage-50 */
+  color: #515654 !important;            /* sage-600 */
+}
+
+/* ── Tables ───────────────────────────────────────────────── */
+.md-typeset table:not([class]) th {
+  background-color: #344c3e;
+  color: #ffffff;
+}
+
+.md-typeset table:not([class]) tr:hover td {
+  background-color: #f1f3f2; /* sage-100 */
+}

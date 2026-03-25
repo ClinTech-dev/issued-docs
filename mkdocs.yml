@@ -1,0 +1,50 @@
+site_name: ClinTech — Issued
+site_description: Clinical issues management powered by AI
+site_url: ""
+docs_dir: docs-site
+
+theme:
+  name: material
+  palette:
+    scheme: default
+    primary: custom
+    accent: custom
+  font:
+    text: ""
+    code: ""
+  features:
+    - navigation.sections
+    - navigation.expand
+    - search.suggest
+    - content.tabs.link
+  logo: assets/ClinTech_light.png
+  favicon: assets/ClinTech_green.png
+
+extra_css:
+  - assets/custom.css
+
+nav:
+  - Home: index.md
+  - The Problem: the-problem.md
+  - How It Works:
+      - Overview: how-it-works/index.md
+      - "Patient Journey: Jordan Smith": how-it-works/patient-journey.md
+      - Agents Reference: how-it-works/agents-reference.md
+  - Safety: safety.md
+  - Where We Are: where-we-are.md
+  - Glossary: glossary.md
+
+markdown_extensions:
+  - admonition
+  - tables
+  - attr_list
+  - toc:
+      permalink: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
