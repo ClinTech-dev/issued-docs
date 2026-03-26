@@ -2,7 +2,7 @@
 
 ## Two systems, one product
 
-Issued is actually two separate systems working in tandem. **Issued** is the interface — the iPad app where clinicians write notes, review patient issues, and manage handover. **IssuedOS** is the intelligence layer underneath it — the system that reads clinical text, reasons about it, and proposes structured changes.
+Issued is actually two separate systems working in tandem. **Issued** is the interface — the web app where clinicians write notes, review patient issues, and manage handover. **IssuedOS** is the intelligence layer underneath it — the system that reads clinical text, reasons about it, and proposes structured changes.
 
 Think of it like a hospital department and its consulting service. The ward team (Issued) does the clinical work and holds the patient record. The consulting service (IssuedOS) receives referrals, analyses the information it is given, and sends back a structured opinion. Crucially, the consulting service never writes in the patient's notes directly — it only ever makes recommendations. The ward team decides what to do with them.
 

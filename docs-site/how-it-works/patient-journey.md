@@ -31,9 +31,9 @@ Each issue appears in Issued as a suggestion card — visually distinct from con
 
 ## Day 1 PM — Consultant Post-take
 
-That afternoon, Dr Bowyer — the consultant — reviews Jordan at the bedside. She notes pleuritic chest pain as an additional feature, reviews the examination findings in detail, and makes two key decisions: she ceases the prednisolone that was started in ED (steroids are not indicated for community-acquired pneumonia without confirmed COPD exacerbation) and refines the management plans for each issue. She adjusts the oxygen target to 92–96%, adds consideration of high-flow nasal prongs if work of breathing increases, and specifies the criteria for IV-to-oral antibiotic step-down.
+That afternoon, Dr Bowyer — the consultant — reviews Jordan at the bedside. He notes pleuritic chest pain as an additional feature, reviews the examination findings in detail, and makes two key decisions: he ceases the prednisolone that was started in ED (steroids are not indicated for community-acquired pneumonia without confirmed COPD exacerbation) and refines the management plans for each issue. He adjusts the oxygen target to 92–96%, adds consideration of high-flow nasal prongs if work of breathing increases, and specifies the criteria for IV-to-oral antibiotic step-down.
 
-Dr Bowyer makes all of these changes directly in the issues list. She is editing the clinical record, not generating text for an AI to interpret. No agent fires. No suggestions appear. The consultant's edits are the medical record.
+Dr Bowyer makes all of these changes directly in the issues list. He is editing the clinical record, not generating text for an AI to interpret. No agent fires. No suggestions appear. The consultant's edits are the medical record.
 
 Behind the scenes, the **Issue Index Agent** silently re-indexes the updated content — updating the internal representation of each issue's current state, its linked investigations, and its plan. This is a background housekeeping operation. It produces no visible output and requires no clinician interaction. It simply ensures that when agents do run later, they are working from the latest version of the record.
 
