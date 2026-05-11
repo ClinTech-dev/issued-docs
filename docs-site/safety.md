@@ -35,6 +35,12 @@ The second layer is a separate safety validator that runs on every agent output 
 
 ---
 
+## Deterministic monitoring, not AI judgement
+
+The Patient-of-Concern Monitor — which watches for rising creatinine, falling haemoglobin, and elevated NEWS scores — follows the same deterministic-first design as the CDSS boundary validator. The rules that fire a flag are explicit code, not a model inference. When the optional AI layer is used to add anticipatory notes to a flag, that output is passed through the same CDSS boundary validator that applies to all other agent outputs before it reaches any interface. The clinician sees a flag and some neutral descriptive context — not a recommendation.
+
+---
+
 ## Everything is logged
 
 The audit trail is complete. Every agent invocation is recorded — what triggered it, what it produced, and what the safety checks concluded. Every suggestion that reaches a clinician is recorded. Every decision a clinician makes on a suggestion — accept, edit with the edit captured, or reject — is recorded with their identity and the exact time.

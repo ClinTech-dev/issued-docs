@@ -28,15 +28,33 @@ Clinical Decision Support System. A regulatory category under Australia's Therap
 
 ---
 
+## Context Brief
+
+A compact, typed summary produced by the Dump Zone Summariser Agent from a long external document — a specialist letter, a prior discharge summary, or an imaging report. One of four structured output types: history brief, investigation brief, specialist opinion brief, or correspondence brief. The brief is a reformatting of existing content, not an interpretation.
+
+---
+
 ## Ghost Preview
 
 A visual preview in the Issued editor showing where an AI suggestion would appear if accepted. Displayed with a dashed purple border and a sparkle icon to distinguish it clearly from confirmed clinical content — so the clinician always knows what is real and what is proposed.
 
 ---
 
+## Formulation
+
+A clinician's structured clinical reasoning about a patient, capturing the patient frame, the temporal pattern of the illness, pertinent positives and negatives, and the working diagnosis. In Issued, a formulation can be supplied to the Knowledge Retrieval Agent, which uses it to search for relevant illness scripts and presenting-complaint schemas.
+
+---
+
 ## ISBAR
 
 A standard clinical handover format: **Introduction**, **Situation**, **Background**, **Assessment**, **Recommendation**. The Handover Agent generates documents in this structure so the output is immediately familiar to any clinician who has ever done a ward handover.
+
+---
+
+## Illness Script
+
+A structured knowledge bundle describing a clinical presentation: its typical features, the findings that confirm it, the findings that argue against it, and the red flags that warrant urgent escalation. IssuedOS maintains a catalogue of 41 illness scripts covering common acute presentations. These are reference structures — the Knowledge Retrieval Agent matches against them; it never uses them to assert a diagnosis.
 
 ---
 
@@ -52,6 +70,12 @@ The structured list of a patient's active clinical problems, each with a title, 
 
 ---
 
+## Knowledge Layer
+
+The in-repo catalogue of clinical reference material that the Knowledge Retrieval Agent searches: 41 illness scripts and 19 presenting-complaint schemas, covering common acute presentations across internal medicine, emergency, and surgery. Content is structured YAML, loaded at runtime. All entries are subject to cofounder clinical review before use in live agent responses.
+
+---
+
 ## Mutation
 
 A proposed change to patient data that an AI agent suggests. Could be "add this issue," "link this result," or "update this plan." Every mutation is reviewable — the clinician accepts it, edits it, or rejects it. Nothing in the patient record changes until a clinician acts on a mutation.
@@ -61,6 +85,12 @@ A proposed change to patient data that an AI agent suggests. Could be "add this 
 ## Orchestrator
 
 The coordinator agent that receives incoming requests and decides which specialist agent should handle them. It does not perform any clinical reasoning itself — it routes work to the right specialist and coordinates the response.
+
+---
+
+## Patient-of-Concern Monitor
+
+A deterministic rule engine — not an AI model — that watches each patient's observation stream for three patterns: rising creatinine above KDIGO thresholds, a significant drop in haemoglobin, and an elevated National Early Warning Score (NEWS). When a rule fires, it raises a flag. An optional AI layer can attach brief anticipatory notes to the flag, but this text is CDSS-validated and never constitutes a clinical recommendation.
 
 ---
 
