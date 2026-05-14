@@ -1,6 +1,6 @@
 # Agents Reference
 
-IssuedOS runs seven AI agents and one deterministic monitoring engine. Each one has a narrow, defined job. None of them modify a patient's record directly — they return proposals for clinician review.
+IssuedOS runs eight AI agents and one deterministic monitoring engine. Each one has a narrow, defined job. None of them modify a patient's record directly — they return proposals for clinician review.
 
 ---
 
@@ -11,7 +11,7 @@ IssuedOS runs seven AI agents and one deterministic monitoring engine. Each one 
 **When it runs:** Triggered when a clinician saves a note or requests a manual extraction.
 
 !!! note
-    The Extraction Agent handles initial note entry. For re-analysing a complete note in the context of the full admission, see the **Review Synthesis Agent** below.
+    The Extraction Agent handles initial note entry. For re-analysing a complete note in the context of the full admission, see the **Note Synthesis Agent** below.
 
 **Example:**
 
@@ -54,18 +54,33 @@ IssuedOS runs seven AI agents and one deterministic monitoring engine. Each one 
 
 ---
 
-## Review Synthesis Agent
+## Note Synthesis Agent
 
-**What it does:** Reads a complete SOAP note — together with the patient's full admission history, active issues, and outstanding tasks — and proposes a unified set of changes to the record: new issues, updates to existing issues, archived issues, and tasks derived from the note. It also produces a clean rewrite of the note for the clinician to edit before submitting.
+**What it does:** Reads a clinician's draft note — together with the patient's full admission history, active issues, and outstanding tasks — and proposes a unified set of changes to the record: new issues, updates to existing issues, archived issues, and tasks derived from the note. It also produces a clean rewrite of the note in the appropriate template for the clinician to edit before submitting. The agent handles the full range of note types written on the ward: medical admission, post-take round, daily review, consultant round, and ad-hoc review — with the rewrite style tuned to each.
 
-**When it runs:** Triggered when a clinician presses the "Analyse" button after writing a note.
+**When it runs:** Triggered when a clinician finishes a draft note and asks for it to be analysed. The encounter type (e.g. consultant round vs daily review) is supplied alongside the draft, so the rewrite arrives in the style appropriate to that note.
 
 **Example:**
 
-> A consultant's post-take note covers three problems in an 80-year-old with sepsis, CKD, and delirium. The agent proposes: add a new issue for hospital-acquired delirium, update the sepsis plan to reflect the antibiotic switch overnight, archive a resolved urinary retention issue, and generate a task to repeat the creatinine at 0600.
+> A consultant's post-take note covers three problems in an 80-year-old with sepsis, CKD, and delirium. The agent proposes: add a new issue for hospital-acquired delirium, update the sepsis plan to reflect the antibiotic switch overnight, archive a resolved urinary retention issue, and generate a task to repeat the creatinine at 0600. The rewritten note arrives in post-take round format.
 
 !!! warning "Boundary"
     Does not invent clinical content. Every proposed change is derived from what the clinician has written. Any interpretation in the output must be traceable to text in the source note.
+
+---
+
+## Linkage Agent
+
+**What it does:** Handles inbound clinical fragments that are not full notes — a result pasted into a scratchpad, a snippet forwarded from Teams, an observation arriving from another system. The agent reads the fragment against the patient's current issues and proposes structured linkages: which issue this result belongs to, whether the fragment hints at a concern not yet on the issues list, and whether a result on an existing issue warrants a plan review by the clinician.
+
+**When it runs:** Triggered when an observation, result, or fragment is ingested through any channel, and again when a clinician modifies a previously proposed linkage with their own rationale — so the agent can re-reason with the new context.
+
+**Example:**
+
+> A clinician pastes *"Cr 195 (was 156)"* into a scratchpad. The Linkage Agent matches the rising creatinine to the active AKI issue and proposes a linkage with a plan-review flag, so the clinician sees that the result has landed on a problem that may need attention.
+
+!!! warning "Boundary"
+    Does not interpret what the result means or suggest what to do about it. It says *"this fragment relates to this issue, and the plan may want a fresh look"* — never *"the AKI is worsening"* or *"escalate fluids"*. Clinical interpretation stays entirely with the clinician.
 
 ---
 
@@ -116,37 +131,11 @@ The three rules are:
 
 ---
 
-## Coming Soon
+## Retired roadmap items
 
-The following agents are on the build list but not yet implemented. They are documented here so stakeholders can see where the roadmap is heading.
+Two agents that previously appeared on the roadmap have been folded into the agents above. Their responsibilities did not go away — they moved.
 
----
+- **Relevance Agent** — its job (linking incoming results to existing issues) is now done by the **Linkage Agent**, which handles a broader set of inbound fragments through a single pipeline.
+- **Gap Detection Agent** — split into three jobs handled elsewhere: completeness review against documentation templates is now done by the **Note Synthesis Agent** (using a structured completeness skill); flagging issues whose plans have gone stale will be handled by a small deterministic monitor on the same pattern as the Patient-of-Concern Monitor; and surfacing concerns mentioned in notes that aren't yet on the issues list is now done by the **Linkage Agent**.
 
-## Relevance Agent
-
-**What it does:** When new results arrive — blood tests, imaging reports, nursing observations — links them to the issues they are relevant to.
-
-**When it runs:** Triggered when a new result is ingested or a clinician requests a manual linkage pass.
-
-**Example:**
-
-> Creatinine result of 125 µmol/L arrives. The agent links it to **Issue #2: AKI on CKD3** and surfaces: *"This result is relevant to your AKI issue."*
-
-!!! warning "Boundary"
-    Does not interpret trends, say "the AKI is improving," or recommend changes to the treatment plan. Flags relevance only — clinical interpretation stays with the clinician.
-
----
-
-## Gap Detection Agent
-
-**What it does:** Reviews the full patient picture for documentation gaps — issues with no plan update in several days, clinical concerns mentioned in notes that have not been added to the issues list, and issues where new information may warrant a plan review.
-
-**When it runs:** Runs on a schedule and can be triggered manually before handover.
-
-**Example:**
-
-> - Flags: *"Issue #3 (Delirium) has not been updated in 3 days."*
-> - Flags: *"An incidental pulmonary nodule is mentioned in the CT report but does not appear on the issues list."*
-
-!!! warning "Boundary"
-    Does not assess clinical significance or urgency beyond what is documented. Says *"this hasn't been updated"* — never says *"this is clinically dangerous."*
+The original architectural decision — that each agent has one narrow job and no agent performs clinical interpretation — is unchanged. The map of which agent does which job has been redrawn to remove overlap.

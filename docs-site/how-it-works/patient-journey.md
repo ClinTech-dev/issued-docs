@@ -46,15 +46,15 @@ Behind the scenes, the **Issue Index Agent** silently re-indexes the updated con
 
 Overnight, Jordan remains on 3 litres of oxygen with saturations in the low 90s. He continues to spike fevers and cough thick sputum. The next morning, the repeat bloods come back: creatinine has improved to 125 µmol/L (down from 138), white cell count is 13.6, and CRP is 225 — still elevated but the renal function is trending in the right direction. Blood cultures show no growth at 24 hours. His renal tract ultrasound shows no obstruction.
 
-The intern, Dr Lay, enters these results into the Investigations section of Jordan's record. As the new data lands, the **Relevance Agent** analyses each result against the active issues list and proposes linkages:
+The intern, Dr Lay, enters these results into the Investigations section of Jordan's record. As the new data lands, the **Linkage Agent** matches each result against the active issues list and proposes structured linkages:
 
-- The creatinine of 125 and the ultrasound result are linked to **Issue #3 (AKI)** — the result is directly relevant to monitoring renal recovery.
+- The creatinine of 125 and the ultrasound result are linked to **Issue #3 (AKI)** — the result is directly relevant to monitoring renal recovery. The Linkage Agent also flags that Issue #3's documented plan may warrant a fresh look, since the trajectory has shifted.
 - The CRP of 225 and the white cell count of 13.6 are linked to **Issue #1 (CAP)** — these are inflammatory markers relevant to tracking the pneumonia's trajectory.
 
 These linkages appear as proposed connections that the clinician can accept or dismiss. Once accepted, the results sit underneath the relevant issue, so that on the next ward round, Dr Bowyer can see at a glance which results relate to which problem without having to mentally reconstruct the connections from a flat list of pathology values.
 
 !!! info "Safety"
-    The Relevance Agent says "this result is relevant to this issue." It does not say "the AKI is improving," "you can stop fluids," or "the antibiotics are working." Clinical interpretation remains entirely with the treating team. The agent connects data to context; the clinician decides what the data means.
+    The Linkage Agent says "this result is relevant to this issue" and, when a result lands on an active problem, "the documented plan may want a fresh look." It does not say "the AKI is improving," "you can stop fluids," or "the antibiotics are working." Clinical interpretation remains entirely with the treating team. The agent connects data to context and flags that the context may have moved; the clinician decides what the data means and whether the plan needs to change.
 
 ---
 
@@ -67,18 +67,18 @@ By day three, Jordan reports feeling a little stronger but remains oxygen-depend
 3. Patchy subpleural reticulation and early ground-glass changes in both lower lobes — possible early interstitial lung changes related to occupational dust exposure.
 4. An incidental 5 mm non-calcified nodule in the left upper lobe, likely benign, with a recommendation for follow-up CT in three months.
 
-The ward round notes are entered into the scratchpad. The **Relevance Agent** links the CT findings to the existing issues: the consolidation and absence of abscess to **Issue #1 (CAP)**, the bronchial thickening and subpleural reticulation to **Issue #2 (COPD/ILD)**. The repeat bloods — creatinine now 112, WCC 12.4, CRP 210 — are linked to their respective issues as well.
+The ward round notes are entered into the scratchpad. The **Linkage Agent** reads the CT report against the active issues and proposes a series of structured linkages: the consolidation and absence of abscess to **Issue #1 (CAP)**, the bronchial thickening and subpleural reticulation to **Issue #2 (COPD/ILD)**. The repeat bloods — creatinine now 112, WCC 12.4, CRP 210 — are linked to their respective issues alongside.
 
-But the fourth CT finding triggers a different agent. The **Gap Detection Agent** scans the CT report against the active issues list and identifies a mismatch: there is a clinically significant finding in the imaging that is not currently tracked anywhere on the issues list. It surfaces a flag:
+The fourth CT finding is different. The Linkage Agent finds no existing issue that the nodule belongs to. Rather than forcing a linkage, it proposes a separate kind of mutation — a *suggested new issue* — and surfaces a flag:
 
-> **Incidental 5 mm LUL nodule mentioned in CT report — not currently tracked as an issue.**
+> **Incidental 5 mm LUL nodule mentioned in CT report — no matching issue on the active list. Suggested as a new issue for clinician review.**
 
-This is not a suggestion to create an issue. It is not a recommendation for workup. It is a notification that something exists in the clinical record that has no corresponding entry on the issues list — a gap in tracking.
+This is not a recommendation to investigate the nodule and it is not a clinical judgement about what the finding means. It is a notification that something the clinician documented in the imaging has no corresponding entry on the issues list, paired with a draft new-issue card the clinician can accept, edit, or reject.
 
-Dr Bowyer sees the flag, discusses the finding with the respiratory team by phone, and manually creates **Issue #4: Incidental 5 mm LUL pulmonary nodule** — with a plan for repeat CT chest at three months, results to be reviewed in Gen Med outpatient clinic, with consideration of referral to respiratory if there is interval change.
+Dr Bowyer sees the flag, discusses the finding with the respiratory team by phone, and accepts the suggested new issue — editing it into **Issue #4: Incidental 5 mm LUL pulmonary nodule** with a plan for repeat CT chest at three months, results to be reviewed in Gen Med outpatient clinic, with consideration of referral to respiratory if there is interval change.
 
 !!! info "Safety"
-    The Gap Detection Agent says "this finding is not tracked." It does not say "this nodule needs urgent workup," "this could be malignant," or "you should order a PET scan." It identifies an omission in documentation coverage, not a clinical judgment. The clinician decides whether the finding warrants a new issue, and if so, what the plan should be.
+    The Linkage Agent says "this finding has no matching issue — here is a draft new-issue card if you want it." It does not say "this nodule needs urgent workup," "this could be malignant," or "you should order a PET scan." It identifies an omission in documentation coverage, not a clinical judgement. The clinician decides whether the finding warrants a new issue, and if so, what the plan should be.
 
 ---
 
@@ -86,14 +86,26 @@ Dr Bowyer sees the flag, discusses the finding with the respiratory team by phon
 
 Day four is the turning point. Jordan has been afebrile for over 24 hours. His oxygen saturations are 94–96% on room air — the nasal prongs are off. He is walking around the ward without assistance, his cough is improving, and his appetite has returned. Blood cultures remain negative at 72 hours. Sputum cultures grew only mixed respiratory flora. The creatinine is down to 105 µmol/L — effectively normal. The team switches him from IV ceftriaxone to oral cefuroxime 500 mg twice daily, commences a short course of prednisolone 25 mg daily for five days to address airway inflammation now that the acute infection has settled, and supplies a salbutamol inhaler with education on technique.
 
-With clinical improvement accelerating, the **Gap Detection Agent** reviews the issues list against recent activity and surfaces two observations:
+Dr Jones writes the daily review note, working in the scratchpad as usual: improvement on all fronts, antibiotic step-down, prednisolone commenced, inhaler issued, plan for discharge tomorrow if the trajectory holds. She marks the encounter type as a daily review and taps **Analyse**.
 
-First, **Issue #3 (AKI)** has not had its plan updated since the creatinine normalised. The last documented plan still reads "continue IV hydration, monitor UO and Cr daily" — but the creatinine is now 105, IV fluids have been stopped, and the AKI has functionally resolved. The staleness flag prompts Dr Jones to update the issue status to resolved, with a note to maintain oral hydration and avoid nephrotoxins.
+This time the request reaches the **Note Synthesis Agent**. Unlike the Linkage Agent — which reads single fragments — Note Synthesis reads the full draft note against the entire admission so far: every issue, every linked result, every plan, every outstanding task. It returns two things together.
 
-Second, **Issue #2 (COPD/ILD)** contains outpatient actions — pulmonary function tests in 6–8 weeks, respiratory OPD follow-up, workplace PPE counselling — that have not been captured as discrete tasks. The agent flags that these items exist in the plan text but are not yet tracked as actionable follow-up items that will carry through to discharge.
+The first is a clean rewrite of Dr Jones's note in the standard daily-review structure — the same content, organised the way the team formats progress notes. Dr Jones can edit or overwrite this before submitting; nothing is committed automatically.
+
+The second is a unified set of proposed changes to the record:
+
+- **Update Issue #3 (AKI)** — the documented plan still reads *"continue IV hydration, monitor UO and Cr daily"*, but the note and the recent results no longer support it. The agent proposes resolving the issue with a closing plan to maintain oral hydration and avoid nephrotoxins.
+- **Update Issue #1 (CAP)** — reflect the step-down from IV ceftriaxone to oral cefuroxime and the commencement of prednisolone for airway inflammation.
+- **Create three follow-up tasks under Issue #2 (COPD/ILD)** — pulmonary function tests in 6–8 weeks, respiratory outpatient follow-up, and workplace PPE counselling. These actions were already written in Issue #2's plan text but had never been captured as discrete tasks that would carry through to discharge.
+
+Alongside these proposals, the agent surfaces one **completeness flag**: the note does not document a formal review of the airway, breathing, and circulation observations for today, which the structured daily-review template asks for. The flag is a prompt to consider, not a correction — Dr Jones decides whether to address it before submitting.
+
+Dr Jones reviews each proposal, accepts all of them, takes the completeness prompt on board, and adds the missing observation summary into the rewritten note before submitting.
 
 !!! info "Safety"
-    The staleness threshold is a deterministic rule, not an AI judgment. Acute issues are flagged if their plan has not been reviewed within two days; monitoring issues use a five-day threshold. The agent does not decide whether the AKI has resolved or whether fluids should be stopped. It identifies that the documented plan no longer reflects the current clinical state, and prompts the clinician to review it.
+    Note Synthesis proposes; the clinician decides. Each mutation — every plan update, every new task, every issue closure — appears as an individual card that Dr Jones accepts, edits, or rejects. The rewritten note is a draft she can edit or discard. The completeness flag points to a documentation gap against a structured template; it does not say what the gap means clinically. Every proposal must be traceable to what the clinician has written; the agent invents no clinical content.
+
+    Stale-plan detection that does not depend on a clinician writing a note — for instance, a long-running monitoring issue whose plan has gone untouched for several days — will be handled by a separate deterministic monitor on the roadmap, on the same pattern as the Patient-of-Concern Monitor. That guardrail is not yet live.
 
 ---
 
@@ -130,6 +142,6 @@ Over five days, Jordan's issues list grew from three to four. Plans evolved as r
 
 The incidental 5 mm pulmonary nodule — exactly the kind of finding that gets lost in a paper handover sheet, exactly the kind of finding described in [The Problem](../the-problem.md) — was tracked from the moment it appeared in a CT report to the moment it was documented in the discharge plan with a three-month follow-up CT arranged.
 
-No AI agent made a clinical decision. The Extraction Agent proposed issues from what the clinician wrote. The Relevance Agent linked results to the problems they related to. The Gap Detection Agent identified when something in the record was not being tracked. The Handover Agent assembled the discharge summary from the issues list. At every step, a clinician reviewed, judged, and decided.
+No AI agent made a clinical decision. The Extraction Agent proposed issues from what the clinician wrote in the admission scratchpad. The Linkage Agent matched incoming results and imaging to the issues they belonged to, and flagged a finding that needed its own issue card. The Note Synthesis Agent rewrote the daily review note and proposed the unified set of plan updates, issue closures, and follow-up tasks that the changing clinical picture warranted. The Handover Agent assembled the discharge summary from the issues list. At every step, a clinician reviewed, judged, and decided.
 
 The system helped. The clinician decided. Nothing was dropped.

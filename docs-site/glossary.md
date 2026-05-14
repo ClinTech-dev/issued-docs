@@ -28,9 +28,21 @@ Clinical Decision Support System. A regulatory category under Australia's Therap
 
 ---
 
+## Channel
+
+A label on every request to IssuedOS stating which surface the request came from — the Issued web app, the developer dashboard, the command-line test harness, or another system. Channel is recorded for audit and telemetry; it never changes which agent handles the request, but it lets the team see, for any given AI interaction, exactly where it originated.
+
+---
+
 ## Context Brief
 
 A compact, typed summary produced by the Dump Zone Summariser Agent from a long external document — a specialist letter, a prior discharge summary, or an imaging report. One of four structured output types: history brief, investigation brief, specialist opinion brief, or correspondence brief. The brief is a reformatting of existing content, not an interpretation.
+
+---
+
+## Encounter Type
+
+A label on a note that tells IssuedOS what kind of clinical encounter the note represents — a medical admission, a post-take round, a daily review, a consultant round, or an ad-hoc review. The Note Synthesis Agent uses this to choose the right rewrite style: a consultant round note should not arrive in the same format as a daily review. Encounter type is supplied by the clinician's choice of template in the Issued editor.
 
 ---
 
@@ -76,9 +88,21 @@ The in-repo catalogue of clinical reference material that the Knowledge Retrieva
 
 ---
 
+## Linkage Agent
+
+The AI agent that handles clinical fragments arriving outside of a full note — a result pasted into a scratchpad, a snippet forwarded from Teams, an observation arriving from another system. It reads the fragment against the patient's current issues and proposes linkages, new issues, or plan-review flags. It never interprets the fragment clinically — it surfaces *which issue this relates to* and lets the clinician decide what it means.
+
+---
+
 ## Mutation
 
 A proposed change to patient data that an AI agent suggests. Could be "add this issue," "link this result," or "update this plan." Every mutation is reviewable — the clinician accepts it, edits it, or rejects it. Nothing in the patient record changes until a clinician acts on a mutation.
+
+---
+
+## Note Synthesis Agent
+
+The AI agent that reads a clinician's draft note against the full admission context and proposes a unified set of changes — new issues, updates, archived issues, tasks — together with a clean rewrite of the note. It handles the full range of ward notes (admission, post-take round, daily review, consultant round, ad-hoc review), using the supplied **encounter type** to choose the right rewrite style. The agent invents no clinical content; every proposal must be traceable to text the clinician has written.
 
 ---
 
